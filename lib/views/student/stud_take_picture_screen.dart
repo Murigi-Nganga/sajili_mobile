@@ -3,13 +3,11 @@ import 'dart:io';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:sajili_mobile/widgets/auth_appbar.dart';
 
 class StudTakePictureScreen extends StatefulWidget {
   const StudTakePictureScreen({
     super.key,
   });
-
 
   @override
   State<StudTakePictureScreen> createState() => _StudTakePictureScreenState();
@@ -56,7 +54,9 @@ class _StudTakePictureScreenState extends State<StudTakePictureScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const AuthAppbar(title: 'Sign Up'),
+      appBar: AppBar(
+        title: const Text('Take Picture'),
+      ),
       body: FutureBuilder(
         future: _initializeControllerFuture,
         builder: ((context, snapshot) {

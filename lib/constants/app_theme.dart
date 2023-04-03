@@ -1,16 +1,21 @@
 import 'package:flutter/material.dart';
 
-AppBarTheme _appBarTheme = const AppBarTheme(
+const _lecAppColors = {
+  'kPrimary': Colors.indigo,
+  'kSecondary': Colors.blue,
+  'kBackground': Color(0xFFF5F5F5) //whitesmoke
+};
+
+const _studAppColors = {
+  'kPrimary': Colors.teal,
+  'kSecondary': Colors.cyan,
+  'kBackground': Color(0xFFF5F5F5) //whitesmoke
+};
+
+const AppBarTheme _appBarTheme = AppBarTheme(
   centerTitle: true,
   elevation: 0,
 );
-
-PageTransitionsTheme _pageTransitionsTheme =
-    const PageTransitionsTheme(builders: {
-  TargetPlatform.android: CupertinoPageTransitionsBuilder(),
-  TargetPlatform.linux: CupertinoPageTransitionsBuilder(),
-  TargetPlatform.windows: CupertinoPageTransitionsBuilder()
-});
 
 ElevatedButtonThemeData _elevatedButtonTheme = ElevatedButtonThemeData(
   style: ButtonStyle(
@@ -19,22 +24,17 @@ ElevatedButtonThemeData _elevatedButtonTheme = ElevatedButtonThemeData(
         vertical: 12,
       ),
     ),
-    shape: MaterialStateProperty.all(
-      RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(30.0),
-      ),
-    ),
   ),
 );
 
 ThemeData appTheme = ThemeData(
   appBarTheme: _appBarTheme,
+  scaffoldBackgroundColor: _studAppColors['kBackground'],
   elevatedButtonTheme: _elevatedButtonTheme,
-  fontFamily: 'Quicksand',
+  fontFamily: 'Gorodita',
   colorScheme: const ColorScheme.light().copyWith(
-    primary: Colors.blue[800],
-    secondary: Colors.blueGrey[600],
+    primary: _studAppColors['kPrimary'],
+    secondary: _studAppColors['kSecondary'],
   ),
   visualDensity: VisualDensity.adaptivePlatformDensity,
-  pageTransitionsTheme: _pageTransitionsTheme,
 );
