@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:sajili_mobile/controllers/bottom_nav_controller.dart';
 import 'package:sajili_mobile/controllers/gps_controller.dart';
 import 'package:sajili_mobile/controllers/lec_login_controller.dart';
 import 'package:sajili_mobile/controllers/stud_login_controller.dart';
@@ -12,5 +13,10 @@ class InitialBindings implements Bindings {
 
     // Lecturer Controllers
     Get.lazyPut(() => LecLoginController(), fenix: true);
+    
+    //TODO: Add LocationController if it will be used
+
+    // Navigation Bar Controller
+    Get.lazyPut(() => BottomNavController(), fenix: true);
   }
 }

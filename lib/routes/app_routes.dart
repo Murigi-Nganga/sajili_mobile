@@ -33,7 +33,7 @@ final getPages = [
   ),
   GetPage(
     name: Routes.studHomeRoute,
-    page: () => const StudHomeScreen(),
+    page: () => StudHomeScreen(),
   ),
   GetPage(
     name: Routes.studTakePictureRoute,
@@ -47,6 +47,6 @@ final getPages = [
   ),
   GetPage(
     name: Routes.lecHomeRoute,
-    page: () => const LecHomeScreen(),
+    page: () => LecHomeScreen(),
   ),
 ];
