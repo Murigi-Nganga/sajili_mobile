@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sajili_mobile/controllers/bottom_nav_controller.dart';
+import 'package:sajili_mobile/views/lecturer/tabs/schedule_screen.dart';
 import 'package:sajili_mobile/views/lecturer/tabs/screen_four.dart';
-import 'package:sajili_mobile/views/lecturer/tabs/screen_one.dart';
 import 'package:sajili_mobile/views/lecturer/tabs/screen_three.dart';
 import 'package:sajili_mobile/views/lecturer/tabs/screen_two.dart';
 import 'package:sajili_mobile/widgets/bottom_navbar.dart';
@@ -11,7 +11,7 @@ class LecHomeScreen extends StatelessWidget {
   LecHomeScreen({super.key});
 
   final List<Widget> _pages = const [
-    ScreenOne(),
+    ScheduleScreen(),
     ScreenTwo(),
     ScreenThree(),
     ScreenFour(),

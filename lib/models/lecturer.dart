@@ -4,7 +4,7 @@ class Lecturer {
   String secondName;
   String phoneNumber;
   String email;
-  String token;
+  String? token;
 
   Lecturer({
     required this.id,
@@ -12,7 +12,7 @@ class Lecturer {
     required this.secondName,
     required this.phoneNumber,
     required this.email,
-    required this.token,
+    this.token,
   });
 
   factory Lecturer.fromJson(Map<String, dynamic> json) => Lecturer(

@@ -19,6 +19,7 @@ class MainApp extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       initialBinding: InitialBindings(),
+      defaultTransition: Transition.circularReveal,
       theme: appTheme,
       getPages: getPages,
       home: const DecisionScreen(),

@@ -21,16 +21,11 @@ class BottomNavBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(() => BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
-          selectedItemColor: Colors.orange,
-          unselectedItemColor: Colors.amber,
+          selectedItemColor: Colors.indigo,
+          unselectedItemColor: Colors.blue,
           selectedFontSize: 13,
-          backgroundColor: Colors.indigo[700],
-          selectedLabelStyle: const TextStyle(
-            color: Colors.amber,
-          ),
-          unselectedLabelStyle: const TextStyle(
-            color: Colors.black,
-          ),
+          unselectedFontSize: 11,
+          // backgroundColor: Colors.indigo[700],
           currentIndex: _navController.selectedIndex.value,
           onTap: (index) => _navController.selectedIndex.value = index,
           items: List.generate(
