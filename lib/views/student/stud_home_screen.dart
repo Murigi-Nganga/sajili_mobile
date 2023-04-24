@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sajili_mobile/controllers/bottom_nav_controller.dart';
-import 'package:sajili_mobile/views/student/tabs/screen_four.dart';
+import 'package:sajili_mobile/views/student/tabs/schedules_screen.dart';
 import 'package:sajili_mobile/views/student/tabs/screen_one.dart';
 import 'package:sajili_mobile/views/student/tabs/screen_three.dart';
 import 'package:sajili_mobile/views/student/tabs/screen_two.dart';
@@ -11,10 +11,10 @@ class StudHomeScreen extends StatelessWidget {
   StudHomeScreen({super.key});
 
   final List<Widget> pages = const [
+    SchedulesScreen(),
     ScreenOne(),
     ScreenTwo(),
-    ScreenThree(),
-    ScreenFour(),
+    ScreenThree()
   ];
 
   final List<String> titles = const [

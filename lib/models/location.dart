@@ -17,9 +17,9 @@ class AttendanceLocation {
       AttendanceLocation(
         id: json['id'],
         name: json['name'],
-        centreLat: json['centre_lat'],
-        centreLong: json['centre_long'],
-        radius: json['radius'],
+        centreLat: json['centre_lat'] != null ? double.parse(json['centre_lat']) : null,
+        centreLong: json['centre_long'] != null ? double.parse(json['centre_long']) : null,
+        radius: json['radius'] != null ? double.parse(json['radius']) : null,
       );
 
   Map<String, dynamic> toJson() => {

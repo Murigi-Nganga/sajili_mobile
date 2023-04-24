@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:sajili_mobile/bindings/initial_bindings.dart';
 import 'package:sajili_mobile/routes/app_routes.dart';
 
-import 'constants/app_theme.dart';
+import 'utils/app_theme.dart';
 import 'views/decision.dart';
 
 void main() async {
@@ -20,6 +20,7 @@ class MainApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       initialBinding: InitialBindings(),
       defaultTransition: Transition.circularReveal,
+      transitionDuration: const Duration(milliseconds: 1500),
       theme: appTheme,
       getPages: getPages,
       home: const DecisionScreen(),
