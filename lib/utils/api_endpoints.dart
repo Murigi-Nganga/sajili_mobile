@@ -1,4 +1,4 @@
-const _baseUrl = 'http://192.168.43.220:8000';
+const _baseUrl = 'http://192.168.137.233:8000';
 
 class Endpoints {
 

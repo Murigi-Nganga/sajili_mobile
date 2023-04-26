@@ -10,8 +10,11 @@ class GPSController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    _location.onLocationChanged.listen((LocationData currentLocation) {
-      location.value = currentLocation;
-    });
+    _location.changeSettings(
+      accuracy: LocationAccuracy.high,
+      interval: 100,
+    );
+    _location.onLocationChanged.listen(
+        (LocationData currentLocation) => location.value = currentLocation);
   }
 }

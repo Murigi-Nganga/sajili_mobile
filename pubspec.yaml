@@ -10,7 +10,7 @@ dependencies:
   camera: ^0.10.3
   flutter:
     sdk: flutter
-  geolocator: ^9.0.2
+  easy_geofencing: ^0.2.0
   get: ^4.6.5
   get_storage: ^2.0.3
   google_mlkit_face_detection: ^0.5.0

@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:sajili_mobile/geofence-feature/current_location_screen.dart';
 import 'package:sajili_mobile/views/decision.dart';
 import 'package:sajili_mobile/views/lecturer/lec_home_screen.dart';
 import 'package:sajili_mobile/views/lecturer/lec_login_screen.dart';
@@ -14,6 +15,7 @@ class Routes {
   static const studLoginRoute = '/student/login';
   static const studTakePictureRoute = '/student/take-picture';
   static const studHomeRoute = '/student/home';
+  static const currentLocationRoute = '/student/current-route';
 
   // Lecturer routes
   static const lecLoginRoute = '/lecturer/login';
@@ -38,6 +40,10 @@ final getPages = [
   GetPage(
     name: Routes.studTakePictureRoute,
     page: () => const StudTakePictureScreen(),
+  ),
+  GetPage(
+    name: Routes.currentLocationRoute,
+    page: () => const CurrentLocationScreen(),
   ),
 
   // Lecturer pages
