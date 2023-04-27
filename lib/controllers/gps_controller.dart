@@ -12,7 +12,8 @@ class GPSController extends GetxController {
     super.onInit();
     _location.changeSettings(
       accuracy: LocationAccuracy.high,
-      interval: 100,
+      interval: 5000,
+      distanceFilter: 2
     );
     _location.onLocationChanged.listen(
         (LocationData currentLocation) => location.value = currentLocation);
