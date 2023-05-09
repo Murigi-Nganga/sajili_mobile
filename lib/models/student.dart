@@ -1,11 +1,31 @@
+import 'package:hive/hive.dart';
+
+part 'student.g.dart';
+
+@HiveType(typeId: 0)
 class Student {
+  @HiveField(0)
   String regNo;
+
+  @HiveField(1)
   String firstName;
+
+  @HiveField(2)
   String secondName;
+
+  @HiveField(3)
   String phoneNumber;
+
+  @HiveField(4)
   String email;
+
+  @HiveField(5)
   int yearOfStudy;
+
+  @HiveField(6)
   String? imagePath;
+
+  @HiveField(7)
   String token;
 
   Student({

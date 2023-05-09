@@ -43,6 +43,6 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 
-
+lib/gm.dart
 examples.txt
 .idea

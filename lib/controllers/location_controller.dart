@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:sajili_mobile/utils/api_endpoints.dart';
-import 'package:sajili_mobile/models/location.dart';
+import 'package:sajili_mobile/models/att_location.dart';
 import 'package:sajili_mobile/utils/custom_snack.dart';
 
 class LocationController extends GetxController

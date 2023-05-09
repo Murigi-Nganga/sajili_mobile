@@ -1,9 +1,25 @@
+import 'package:hive/hive.dart';
+
+part 'lecturer.g.dart';
+
+@HiveType(typeId: 2)
 class Lecturer {
+  @HiveField(0)
   int id;
+
+  @HiveField(1)
   String firstName;
+
+  @HiveField(2)
   String secondName;
+
+  @HiveField(3)
   String phoneNumber;
+
+  @HiveField(4)
   String email;
+
+  @HiveField(5)
   String? token;
 
   Lecturer({

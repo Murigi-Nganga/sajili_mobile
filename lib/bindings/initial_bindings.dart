@@ -10,7 +10,7 @@ class InitialBindings implements Bindings {
   void dependencies() {
     // Student Controllers
     Get.lazyPut(() => StudLoginController(), fenix: true);
-    Get.lazyPut(() => GPSController(), fenix: true);
+    // Get.lazyPut(() => GPSController(), fenix: true);
 
     // Lecturer Controllers
     Get.lazyPut(() => LecLoginController(), fenix: true);

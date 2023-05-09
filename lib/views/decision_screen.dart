@@ -29,14 +29,6 @@ class DecisionScreen extends StatelessWidget {
               },
               child: const Text('Student'),
             ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                Get.toNamed(Routes.currentLocationRoute);
-              },
-              child: const Text('Current Location Route'),
-            ),
-            const SizedBox(height: 20),
           ],
         ),
       ),

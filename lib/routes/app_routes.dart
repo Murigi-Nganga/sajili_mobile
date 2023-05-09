@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
-import 'package:sajili_mobile/geofence-feature/current_location_screen.dart';
-import 'package:sajili_mobile/views/decision.dart';
+import 'package:sajili_mobile/controllers/geofence-feature/current_location_screen.dart';
+import 'package:sajili_mobile/views/decision_screen.dart';
 import 'package:sajili_mobile/views/lecturer/lec_home_screen.dart';
 import 'package:sajili_mobile/views/lecturer/lec_login_screen.dart';
 import 'package:sajili_mobile/views/student/stud_home_screen.dart';

@@ -1,15 +1,34 @@
+import 'package:hive/hive.dart';
 import 'package:sajili_mobile/models/lecturer.dart';
-import 'package:sajili_mobile/models/location.dart';
+import 'package:sajili_mobile/models/att_location.dart';
 import 'package:sajili_mobile/models/subject.dart';
 
+part 'schedule.g.dart';
+
+@HiveType(typeId: 1)
 class Schedule {
+  @HiveField(0)
   int id;
+
+  @HiveField(1)
   Subject subject;
+
+  @HiveField(2)
   AttendanceLocation location;
+
+  @HiveField(3)
   Lecturer lecturer;
+
+  @HiveField(4)
   String dayOfWeek;
+
+  @HiveField(5)
   String startTime;
+
+  @HiveField(6)
   String endTime;
+
+  @HiveField(7)
   bool isOnline;
 
   Schedule({

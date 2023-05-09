@@ -1,10 +1,28 @@
+import 'package:hive/hive.dart';
+
+part 'subject.g.dart';
+
+@HiveType(typeId: 4)
 class Subject {
+  @HiveField(0)
   int id;
+
+  @HiveField(1)
   int lecturerId;
+
+  @HiveField(2)
   int courseId;
+
+  @HiveField(3)
   String subjectCode;
+
+  @HiveField(4)
   String subjectName;
+
+  @HiveField(5)
   int yearStudied;
+
+  @HiveField(6)
   int semStudied;
 
   Subject({

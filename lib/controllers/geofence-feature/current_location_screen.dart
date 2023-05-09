@@ -5,7 +5,7 @@ import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 // import 'package:hive/hive.dart';
-import 'package:location/location.dart';
+// import 'package:location/location.dart';
 import 'package:sajili_mobile/controllers/gps_controller.dart';
 
 class CurrentLocationScreen extends StatefulWidget {
@@ -17,7 +17,7 @@ class CurrentLocationScreen extends StatefulWidget {
 
 class _CurrentLocationScreenState extends State<CurrentLocationScreen> {
   // Use controller to set location
-  final GPSController _gpsController = Get.find<GPSController>();
+  // final GPSController _gpsController = Get.find<GPSController>();
 
   final double _earthRadius = 6371000;
 
@@ -46,28 +46,29 @@ class _CurrentLocationScreenState extends State<CurrentLocationScreen> {
       appBar: AppBar(
         title: const Text('Edit Location'),
       ),
-      body: Obx(
-        () => SizedBox(
-          child: _gpsController.location.value == null
-              ? const CircularProgressIndicator()
-              : Column(
-                  children: [
-                    Text(
-                        'Longitude: ${_gpsController.location.value!.longitude}'),
-                    Text('Latitude:${_gpsController.location.value!.latitude}'),
-                    Text('${haversineDistance(
-                      lat1: _gpsController.location.value!.latitude!,
-                      lon1: _gpsController.location.value!.longitude!,
-                      lat2: -1.2763522,
-                      lon2: 36.7576156,
-                    )} meters')
-                    // isInsideGeofence
-                    //     ? const Text('You are inside the geofence')
-                    //     : const Text('You are outside the geofence')
-                  ],
-                ),
-        ),
-      ),
+      // body: 
+      // Obx(
+      //   () => SizedBox(
+      //     child: _gpsController.location.value == null
+      //         ? const CircularProgressIndicator()
+      //         : Column(
+      //             children: [
+      //               Text(
+      //                   'Longitude: ${_gpsController.location.value!.longitude}'),
+      //               Text('Latitude:${_gpsController.location.value!.latitude}'),
+      //               Text('${haversineDistance(
+      //                 lat1: _gpsController.location.value!.latitude!,
+      //                 lon1: _gpsController.location.value!.longitude!,
+      //                 lat2: -1.2763522,
+      //                 lon2: 36.7576156,
+      //               )} meters')
+      //               // isInsideGeofence
+      //               //     ? const Text('You are inside the geofence')
+      //               //     : const Text('You are outside the geofence')
+      //             ],
+      //           ),
+      //   ),
+      // ),
     );
   }
 }

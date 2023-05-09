@@ -1,10 +1,6 @@
-const _baseUrl = 'http://192.168.137.233:8000';
-
 class Endpoints {
 
-  // 'http://192.168.43.220:8000'
-  // 'http://192.168.8.101:8000';
-  // 'http://10.42.0.1:8000';
+  static const _baseUrl = 'http://192.168.8.102:8000';
 
   static const studLoginUrl = '$_baseUrl/school/student/login';
   static const lecLoginUrl = '$_baseUrl/school/lecturer/login';

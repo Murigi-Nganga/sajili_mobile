@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sajili_mobile/controllers/bottom_nav_controller.dart';
-import 'package:sajili_mobile/views/student/tabs/schedules_screen.dart';
-import 'package:sajili_mobile/views/student/tabs/screen_one.dart';
-import 'package:sajili_mobile/views/student/tabs/screen_three.dart';
-import 'package:sajili_mobile/views/student/tabs/screen_two.dart';
+import 'package:sajili_mobile/views/student/tabs/schedules_tab.dart';
+import 'package:sajili_mobile/views/student/tabs/statistics_tab.dart';
+import 'package:sajili_mobile/views/student/tabs/settings_tab.dart';
+import 'package:sajili_mobile/views/student/tabs/motivation_tab.dart';
 import 'package:sajili_mobile/widgets/bottom_navbar.dart';
 
 class StudHomeScreen extends StatelessWidget {

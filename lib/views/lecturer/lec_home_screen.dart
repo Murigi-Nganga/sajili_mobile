@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sajili_mobile/controllers/bottom_nav_controller.dart';
-import 'package:sajili_mobile/views/lecturer/tabs/schedule_screen.dart';
-import 'package:sajili_mobile/views/lecturer/tabs/screen_four.dart';
-import 'package:sajili_mobile/views/lecturer/tabs/screen_three.dart';
-import 'package:sajili_mobile/views/lecturer/tabs/screen_two.dart';
+import 'package:sajili_mobile/views/lecturer/tabs/schedules_tab.dart';
+import 'package:sajili_mobile/views/lecturer/tabs/settings_tab.dart';
+import 'package:sajili_mobile/views/lecturer/tabs/reports_tab.dart';
+import 'package:sajili_mobile/views/lecturer/tabs/statistics_tab.dart';
 import 'package:sajili_mobile/widgets/bottom_navbar.dart';
 
 class LecHomeScreen extends StatelessWidget {
