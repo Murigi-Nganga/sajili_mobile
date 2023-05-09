@@ -3,9 +3,11 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:sajili_mobile/local_storage/local_storage.dart';
 import 'package:sajili_mobile/utils/api_endpoints.dart';
 import 'package:sajili_mobile/models/lecturer.dart';
 import 'package:sajili_mobile/utils/custom_snack.dart';
+import 'package:sajili_mobile/utils/enums.dart';
 
 class LecLoginController extends GetxController with StateMixin<Lecturer> {
   Rx<String> email = Rx('');
@@ -29,6 +31,7 @@ class LecLoginController extends GetxController with StateMixin<Lecturer> {
 
         if (response.statusCode == 200) {
           change(Lecturer.fromJson(responseBody), status: RxStatus.success());
+          LocalStorage().persistUser(state, UserType.lecturer);
           showSnack(
             'Success',
             'Login Successful',

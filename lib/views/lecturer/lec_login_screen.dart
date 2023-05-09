@@ -78,9 +78,6 @@ class LecLoginScreen extends StatelessWidget {
                                       .login()
                                       .whenComplete((){
                                     if (loginController.status.isSuccess) {
-                                      LocalStorage().persistUser(
-                                          loginController.state!,
-                                          UserType.lecturer);
                                       Get.offAndToNamed(Routes.lecHomeRoute);
                                     }
                                   })

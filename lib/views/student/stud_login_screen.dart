@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:sajili_mobile/controllers/stud_login_controller.dart';
+import 'package:sajili_mobile/local_storage/local_storage.dart';
 import 'package:sajili_mobile/routes/app_routes.dart';
+import 'package:sajili_mobile/utils/enums.dart';
 import 'package:sajili_mobile/utils/form_validators.dart';
 import 'package:sajili_mobile/widgets/custom_form_field.dart';
 
@@ -75,7 +77,7 @@ class StudLoginScreen extends StatelessWidget {
                                   {
                                     loginController.login().whenComplete(() {
                                       if (loginController.status.isSuccess) {
-                                        Get.offAndToNamed(Routes.studHomeRoute);
+                                        Get.offAndToNamed(Routes.lecHomeRoute);
                                       }
                                     })
                                   }

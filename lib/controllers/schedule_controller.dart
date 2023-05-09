@@ -3,25 +3,39 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:sajili_mobile/local_storage/local_storage.dart';
 import 'package:sajili_mobile/utils/api_endpoints.dart';
 import 'package:sajili_mobile/models/schedule.dart';
 import 'package:sajili_mobile/utils/custom_snack.dart';
+import 'package:sajili_mobile/utils/enums.dart';
 
 class ScheduleController extends GetxController
     with StateMixin<List<Schedule>> {
+  Rx<Map<String, dynamic>?> user = Rx({});
+
   @override
   onInit() async {
     super.onInit();
-    //TODO: Fetch whether this is a lec or student from Shared Preferences or Hive
-    // getSchedules();
-    getSchedulesByYear();
+
+    user(await LocalStorage().getUser());
+
+    if (user.value != null) {
+      if (user.value!['userType'] == UserType.lecturer) {
+        await getSchedulesByLecId();
+      } else {
+        await getSchedulesByYear();
+      }
+    }
   }
 
-  Future<void> getSchedules() async {
+  Future<void> getSchedulesByLecId() async {
     change(null, status: RxStatus.loading());
 
     try {
-      await http.get(Uri.parse(Endpoints.getSchedulesByLecId)).then((response) {
+      await http
+          .get(Uri.parse(
+              "${Endpoints.getSchedulesByLecId}/${user.value!['appUser'].id}"))
+          .then((response) {
         final responseBody = json.decode(response.body);
         if (response.statusCode == 200) {
           final List<Schedule> schedules = responseBody
@@ -52,9 +66,11 @@ class ScheduleController extends GetxController
     change(null, status: RxStatus.loading());
 
     try {
-      await http.get(Uri.parse(Endpoints.getSchedulesByYear)).then((response) {
+      await http
+          .get(Uri.parse(
+              "${Endpoints.getSchedulesByYear}/${user.value!['appUser'].yearOfStudy}"))
+          .then((response) {
         final responseBody = json.decode(response.body);
-        print(responseBody);
         if (response.statusCode == 200) {
           final List<Schedule> schedules = responseBody
               .map<Schedule>((obj) => Schedule.fromJson(obj))

@@ -1,12 +1,8 @@
-import 'dart:async';
-import 'dart:math' as math;
 
-import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
+import 'dart:math' as math;
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 // import 'package:hive/hive.dart';
 // import 'package:location/location.dart';
-import 'package:sajili_mobile/controllers/gps_controller.dart';
 
 class CurrentLocationScreen extends StatefulWidget {
   const CurrentLocationScreen({Key? key}) : super(key: key);

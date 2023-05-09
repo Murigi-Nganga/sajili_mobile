@@ -19,10 +19,7 @@ class LocalStorage {
   final Box<Schedule> _schedulesBox = Hive.box<Schedule>('schedules');
 
   Future<void> persistUser(dynamic user, UserType userType) async {
-    //TODO: Check if type works correctly
-    if (user.runtimeType == Student || user.runtimeType == Lecturer) {
-      await _userBox.putAll({'appUser': user, 'userType': userType});
-    }
+    await _userBox.putAll({'appUser': user, 'userType': userType});
   }
 
   Future<void> removeUser() async => await _userBox.clear();
@@ -30,6 +27,7 @@ class LocalStorage {
   Future<Map<String, dynamic>?> getUser() async {
     final appUser = await _userBox.get('appUser', defaultValue: null);
     UserType? userType = await _userBox.get('userType', defaultValue: null);
+
     if (appUser == null) {
       return null;
     }
