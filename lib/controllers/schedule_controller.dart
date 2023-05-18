@@ -8,6 +8,7 @@ import 'package:sajili_mobile/utils/api_endpoints.dart';
 import 'package:sajili_mobile/models/schedule.dart';
 import 'package:sajili_mobile/utils/custom_snack.dart';
 import 'package:sajili_mobile/utils/enums.dart';
+import 'package:sajili_mobile/utils/notifications.dart';
 
 class ScheduleController extends GetxController
     with StateMixin<List<Schedule>> {
@@ -24,6 +25,8 @@ class ScheduleController extends GetxController
         await getSchedulesByLecId();
       } else {
         await getSchedulesByYear();
+        //* Set app notifications
+        await setNotifications();
       }
     }
   }
@@ -41,16 +44,19 @@ class ScheduleController extends GetxController
           final List<Schedule> schedules = responseBody
               .map<Schedule>((obj) => Schedule.fromJson(obj))
               .toList();
+          LocalStorage().persistSchedules(schedules);
           if (schedules.isEmpty) {
             change(schedules, status: RxStatus.empty());
             return;
           }
           change(schedules, status: RxStatus.success());
         } else {
+          LocalStorage().persistSchedules([]);
           change(null, status: RxStatus.error('Something went wrong'));
         }
       });
     } catch (error) {
+      LocalStorage().persistSchedules([]);
       change(null, status: RxStatus.error(error.toString()));
       showSnack(
         'Error',
@@ -75,17 +81,20 @@ class ScheduleController extends GetxController
           final List<Schedule> schedules = responseBody
               .map<Schedule>((obj) => Schedule.fromJson(obj))
               .toList();
+          print(schedules[0].endTime.runtimeType);
+          LocalStorage().persistSchedules(schedules);
           if (schedules.isEmpty) {
             change(schedules, status: RxStatus.empty());
             return;
           }
           change(schedules, status: RxStatus.success());
         } else {
+          LocalStorage().persistSchedules([]);
           change(null, status: RxStatus.error('Something went wrong'));
         }
       });
     } catch (error) {
-      print(error);
+      LocalStorage().persistSchedules([]);
       change(null, status: RxStatus.error(error.toString()));
       showSnack(
         'Error',

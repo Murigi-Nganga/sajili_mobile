@@ -78,7 +78,7 @@ class LecLoginScreen extends StatelessWidget {
                                       .login()
                                       .whenComplete((){
                                     if (loginController.status.isSuccess) {
-                                      Get.offAndToNamed(Routes.lecHomeRoute);
+                                      Get.offAllNamed(Routes.lecHomeRoute);
                                     }
                                   })
                               },

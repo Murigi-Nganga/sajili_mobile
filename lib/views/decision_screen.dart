@@ -16,6 +16,7 @@ class DecisionScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            //TODO: Put different widgets
             ElevatedButton(
               onPressed: () {
                 Get.toNamed(Routes.lecLoginRoute);

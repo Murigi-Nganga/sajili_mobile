@@ -11,18 +11,20 @@ dependencies:
   camera: ^0.10.3
   flutter:
     sdk: flutter
+  flutter_local_notifications: ^14.0.0
   get: ^4.6.5
   geolocator: ^9.0.2
   get_storage: ^2.0.3
+  google_maps_flutter: ^2.2.5
   google_mlkit_face_detection: ^0.5.0
   hive: ^2.2.3
   hive_flutter: ^1.1.0
   http: ^0.13.5
   image_picker: ^0.8.6+1
+  local_auth: ^2.1.6
   path_provider: ^2.0.12
-  flutter_local_notifications: ^14.0.0
-  timezone: ^0.9.2
   permission_handler: ^10.2.0
+  timezone: ^0.9.2
 
 dev_dependencies:
   flutter_test:
@@ -38,4 +40,7 @@ flutter:
     - family: Quicksand
       fonts:
         - asset: fonts/Quicksand.ttf
+    - family: Gorodita
+      fonts:
+        - asset: fonts/Gorodita.ttf
         

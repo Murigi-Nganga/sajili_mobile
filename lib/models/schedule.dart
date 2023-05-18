@@ -1,9 +1,15 @@
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:hive/hive.dart';
 import 'package:sajili_mobile/models/lecturer.dart';
 import 'package:sajili_mobile/models/att_location.dart';
 import 'package:sajili_mobile/models/subject.dart';
 
 part 'schedule.g.dart';
+
+Time _convertStringToTime(String timeInString) {
+  List<String> hourMinList = timeInString.substring(0, 5).split(':');
+  return Time(int.parse(hourMinList[0]), int.parse(hourMinList[1]));
+}
 
 @HiveType(typeId: 1)
 class Schedule {
@@ -23,10 +29,10 @@ class Schedule {
   String dayOfWeek;
 
   @HiveField(5)
-  String startTime;
+  Time startTime;
 
   @HiveField(6)
-  String endTime;
+  Time endTime;
 
   @HiveField(7)
   bool isOnline;
@@ -48,8 +54,8 @@ class Schedule {
         location: AttendanceLocation.fromJson(json['location']),
         lecturer: Lecturer.fromJson(json['lecturer']),
         dayOfWeek: json['day_of_week'],
-        startTime: json['start_time'],
-        endTime: json['end_time'],
+        startTime: _convertStringToTime(json['start_time']),
+        endTime: _convertStringToTime(json['end_time']),
         isOnline: json['is_online'],
       );
 

@@ -15,12 +15,12 @@ class StudTakePictureScreen extends StatefulWidget {
 
 class _StudTakePictureScreenState extends State<StudTakePictureScreen> {
   late CameraController _cameraController;
-  late Future<void> _initializeControllerFuture;
+  late Future<void> _initializeCamControllerFuture;
 
   @override
   void initState() {
     super.initState();
-    _initializeControllerFuture = _initializeCamera();
+    _initializeCamControllerFuture = _initializeCamera();
   }
 
   @override
@@ -39,7 +39,7 @@ class _StudTakePictureScreenState extends State<StudTakePictureScreen> {
 
   void _takePicture() async {
     try {
-      await _initializeControllerFuture;
+      await _initializeCamControllerFuture;
       // final appDirectory = await getApplicationDocumentsDirectory();
       // final imagePath = '${appDirectory.path}/image.jpg}';
       // final pictureFile = File(imagePath);
@@ -58,7 +58,7 @@ class _StudTakePictureScreenState extends State<StudTakePictureScreen> {
         title: const Text('Take Picture'),
       ),
       body: FutureBuilder(
-        future: _initializeControllerFuture,
+        future: _initializeCamControllerFuture,
         builder: ((context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
             return Column(children: [

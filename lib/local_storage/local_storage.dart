@@ -1,7 +1,7 @@
 import 'package:hive/hive.dart';
-import 'package:sajili_mobile/models/lecturer.dart';
+import 'package:sajili_mobile/models/att_track.dart';
+import 'package:sajili_mobile/models/attendance.dart';
 import 'package:sajili_mobile/models/schedule.dart';
-import 'package:sajili_mobile/models/student.dart';
 import 'package:sajili_mobile/utils/enums.dart';
 
 // Persisting data to local storage
@@ -17,6 +17,9 @@ class LocalStorage {
 
   final Box _userBox = Hive.box('user');
   final Box<Schedule> _schedulesBox = Hive.box<Schedule>('schedules');
+  final Box<Attendance> _attendancesBox = Hive.box<Attendance>('attendances');
+  final Box<AttendanceTrack> _attendanceTracksBox =
+      Hive.box<AttendanceTrack>('attendanceTracks');
 
   Future<void> persistUser(dynamic user, UserType userType) async {
     await _userBox.putAll({'appUser': user, 'userType': userType});
@@ -40,6 +43,43 @@ class LocalStorage {
     }
   }
 
-  Future<List<Schedule>> getSchedules() async =>
-      _schedulesBox.values.map<Schedule>((attLocation) => attLocation).toList();
+  List<Schedule> getSchedules() =>
+      _schedulesBox.values.map<Schedule>((schedule) => schedule).toList();
+
+  Future<void> addAttendance(Attendance attendance) async =>
+      _attendancesBox.put(attendance.id, attendance);
+
+  Future<void> addAttendanceTrack({
+    required int scheduleId,
+    required AttendanceTrack attTrack,
+  }) async =>
+      _attendanceTracksBox.put(scheduleId, attTrack);
+
+  List<Attendance> getAttendances() => _attendancesBox.values
+      .map<Attendance>((attendance) => attendance)
+      .toList();
+
+  AttendanceTrack? getAttendanceTrack({required int scheduleId}) =>
+      _attendanceTracksBox.get(scheduleId);
+
+  Future<void> updateAttendanceTrack(
+      int scheduleId, AttendanceTrack attTrack) async {
+    //* Delete and put the updated instance
+    _attendanceTracksBox.delete(scheduleId);
+    _attendanceTracksBox.put(scheduleId, attTrack);
+  }
+
+  Attendance? getScheduleAttendance(Schedule schedule) {
+    for (Attendance attendance in _attendancesBox.values) {
+      if (schedule == attendance.schedule) {
+        return attendance;
+      }
+    }
+    return null;
+  }
+
+  Future<void> deleteAttendances() async => await _attendancesBox.clear();
+
+  Future<void> deleteAttendanceTracks() async =>
+      await _attendanceTracksBox.clear();
 }

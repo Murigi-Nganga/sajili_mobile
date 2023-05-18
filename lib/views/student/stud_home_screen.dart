@@ -40,6 +40,7 @@ class StudHomeScreen extends StatelessWidget {
 
   final _navController = Get.find<BottomNavController>();
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

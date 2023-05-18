@@ -22,8 +22,8 @@ class ScheduleAdapter extends TypeAdapter<Schedule> {
       location: fields[2] as AttendanceLocation,
       lecturer: fields[3] as Lecturer,
       dayOfWeek: fields[4] as String,
-      startTime: fields[5] as String,
-      endTime: fields[6] as String,
+      startTime: fields[5] as Time,
+      endTime: fields[6] as Time,
       isOnline: fields[7] as bool,
     );
   }

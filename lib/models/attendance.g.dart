@@ -1,38 +1,41 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'att_location.dart';
+part of 'attendance.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator
 // **************************************************************************
 
-class AttendanceLocationAdapter extends TypeAdapter<AttendanceLocation> {
+class AttendanceAdapter extends TypeAdapter<Attendance> {
   @override
-  final int typeId = 3;
+  final int typeId = 5;
 
   @override
-  AttendanceLocation read(BinaryReader reader) {
+  Attendance read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return AttendanceLocation(
+    return Attendance(
       id: fields[0] as int,
-      name: fields[1] as String,
-      polygonPoints: (fields[2] as List?)?.cast<LatLng>(),
+      schedule: fields[1] as Schedule,
+      student: fields[2] as Student,
+      timeSignedIn: fields[4] as DateTime,
     );
   }
 
   @override
-  void write(BinaryWriter writer, AttendanceLocation obj) {
+  void write(BinaryWriter writer, Attendance obj) {
     writer
-      ..writeByte(3)
+      ..writeByte(4)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
-      ..write(obj.name)
+      ..write(obj.schedule)
       ..writeByte(2)
-      ..write(obj.polygonPoints);
+      ..write(obj.student)
+      ..writeByte(4)
+      ..write(obj.timeSignedIn);
   }
 
   @override
@@ -41,7 +44,7 @@ class AttendanceLocationAdapter extends TypeAdapter<AttendanceLocation> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is AttendanceLocationAdapter &&
+      other is AttendanceAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }
