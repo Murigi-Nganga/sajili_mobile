@@ -81,7 +81,6 @@ class ScheduleController extends GetxController
           final List<Schedule> schedules = responseBody
               .map<Schedule>((obj) => Schedule.fromJson(obj))
               .toList();
-          print(schedules[0].endTime.runtimeType);
           LocalStorage().persistSchedules(schedules);
           if (schedules.isEmpty) {
             change(schedules, status: RxStatus.empty());

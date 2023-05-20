@@ -1,6 +1,7 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:sajili_mobile/local_storage/local_storage.dart';
 import 'package:sajili_mobile/models/schedule.dart';
+import 'package:sajili_mobile/utils/attendance_utils.dart';
 import 'package:timezone/standalone.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'dart:async';
@@ -8,36 +9,13 @@ import 'dart:async';
 FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
 
-int convertTimeToMin(int hour, int min) => hour * 60 + min;
-
-String getDayOfWeekString(int dayOfWeek) {
-  List<String> daysOfWeek = [
-    'Monday',
-    'Tuesday',
-    'Wednesday',
-    'Thursday',
-    'Friday',
-  ];
-  return daysOfWeek[dayOfWeek - 1];
-}
-
-Time getMidTime({required Time startTime, required Time endTime}) {
-  int startTimeInMin = convertTimeToMin(startTime.hour, startTime.minute);
-  int endTimeInMin = convertTimeToMin(endTime.hour, endTime.minute);
-
-  int diffInMinutes = endTimeInMin - startTimeInMin;
-  int minutesToAdd = diffInMinutes ~/ 2;
-
-  int midTimeInMin = startTimeInMin + minutesToAdd;
-
-  return Time(midTimeInMin ~/ 60, midTimeInMin % 60);
-}
-
 Future<void> setScheduleNotification({required Schedule schedule}) async {
   DateTime now = DateTime.now();
-  DateTime notifDateTime = DateTime(now.year, now.month, now.day,
-          schedule.startTime.hour, schedule.startTime.minute)
-      .subtract(const Duration(minutes: 5));
+  DateTime notifDateTime = customTime(
+    hour: schedule.startTime.hour,
+    minute: schedule.startTime.minute,
+    minToSubtract: 5,
+  );
 
   //* If notification time is earlier than now, don't set notification
   if (now.isAfter(notifDateTime)) return;
@@ -65,8 +43,8 @@ Future<void> setScheduleNotification({required Schedule schedule}) async {
     schedule.id,
     '${schedule.subject.subjectCode} - ${schedule.subject.subjectName}',
     'Class will start at ${notifDateTime.hour}:${notifDateTime.minute} hrs\n'
-        // 'Remember to take your check-ins for the class'
-        ,
+    // 'Remember to take your check-ins for the class'
+    ,
     scheduledNotificationDateTime,
     NotificationDetails(
       android: androidPlatformChannelSpecifics,
