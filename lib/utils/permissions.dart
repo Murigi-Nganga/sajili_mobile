@@ -5,6 +5,6 @@ Future<void> requestPermissions() async {
   await [
     Permission.location,
     Permission.camera,
-    Permission.notification
+    Permission.notification,
   ].request();
 }

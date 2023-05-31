@@ -10,3 +10,9 @@ enum UserType {
   @HiveField(1)
   lecturer
 }
+
+enum AttendanceType {
+  none,
+  partial,
+  full,
+}

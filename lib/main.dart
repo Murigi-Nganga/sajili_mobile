@@ -63,7 +63,6 @@ void main() async {
   await flutterLocalNotificationsPlugin.initialize(initializationSettings);
 
   runApp(const MyApp());
-
 }
 
 class MyApp extends StatelessWidget {
@@ -93,8 +92,7 @@ class MyApp extends StatelessWidget {
                   body: Center(
                     child: Text(
                       '${snapshot.error.toString()} \n'
-                      'Please contact your administrator'
-                      ,
+                      'Please contact your administrator',
                     ),
                   ),
                 );

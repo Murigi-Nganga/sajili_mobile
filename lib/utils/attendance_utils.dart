@@ -1,5 +1,7 @@
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart' show LatLng;
+import 'package:sajili_mobile/models/att_track.dart';
+import 'enums.dart' show AttendanceType;
 
 int convertTimeToMin(int hour, int min) => hour * 60 + min;
 
@@ -82,14 +84,26 @@ bool isPointInPolygon(LatLng point, List<LatLng> polygon) {
   return isInside;
 }
 
-// Time getMidTime({required Time startTime, required Time endTime}) {
-//   int startTimeInMin = convertTimeToMin(startTime.hour, startTime.minute);
-//   int endTimeInMin = convertTimeToMin(endTime.hour, endTime.minute);
+//* Check if attendance type is none, full or partial
 
-//   int diffInMinutes = endTimeInMin - startTimeInMin;
-//   int minutesToAdd = diffInMinutes ~/ 2;
+AttendanceType getAttendanceType(AttendanceTrack attTrack) {
+  if (attTrack.btnOneInLocation && attTrack.btnThreeInLocation ||
+      attTrack.btnTwoInLocation && attTrack.btnThreeInLocation ||
+      attTrack.btnOneInLocation && attTrack.btnTwoInLocation) {
+    return AttendanceType.partial;
+  }
 
-//   int midTimeInMin = startTimeInMin + minutesToAdd;
+  if (attTrack.btnOneInLocation &&
+      attTrack.btnTwoInLocation &&
+      attTrack.btnThreeInLocation) {
+    return AttendanceType.full;
+  }
 
-//   return Time(midTimeInMin ~/ 60, midTimeInMin % 60);
-// }
+  return AttendanceType.none;
+}
+
+final Map<String, String> authMethods = {
+  "localAuth": "local_auth",
+  "faceRecognitionService": "face_recognition_service",
+  "other": "other"
+};

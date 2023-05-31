@@ -55,7 +55,8 @@ class StudLoginController extends GetxController with StateMixin<Student> {
       change(null, status: RxStatus.error());
       showSnack(
         'Error',
-        'Check your internet connection',
+        'Check your internet connection'
+        ,
         Colors.red[400]!,
         Icons.error_rounded,
         1,

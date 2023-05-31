@@ -1,6 +1,6 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -15,6 +15,8 @@ import 'package:sajili_mobile/routes/app_routes.dart';
 import 'package:sajili_mobile/utils/api_endpoints.dart';
 import 'package:sajili_mobile/utils/attendance_utils.dart';
 import 'package:sajili_mobile/utils/custom_snack.dart';
+import 'package:sajili_mobile/utils/enums.dart';
+import 'package:timezone/timezone.dart';
 
 class AttendanceController extends GetxController with StateMixin<Attendance> {
   Rx<Map<String, dynamic>?> user = Rx({});
@@ -26,49 +28,75 @@ class AttendanceController extends GetxController with StateMixin<Attendance> {
     user(await LocalStorage().getUser());
   }
 
-  Future<void> submitAttendance(Schedule schedule) async {
+  Future<void> _submitAttendance(
+      Schedule schedule, bool isPartial, String authMethod,
+      {File? studImage}) async {
     change(null, status: RxStatus.loading());
 
     try {
-      final requestBody = {
-        "student": (user.value!['appUser'] as Student).regNo,
-        "schedule": schedule.id.toString()
-      };
-
-      await http
-          .post(
+      var request = http.MultipartRequest(
+        'POST',
         Uri.parse(Endpoints.submitAttendanceUrl),
-        body: requestBody,
       )
-          .then((response) {
-        final responseBody = json.decode(response.body);
-        if (response.statusCode == 200 || response.statusCode == 201) {
-          final Attendance attendance = Attendance.fromJson(responseBody);
-          LocalStorage().addAttendance(attendance);
-          change(attendance, status: RxStatus.success());
-          showSnack(
-            'Success',
-            'Attendance recorded successfully',
-            Colors.green[400]!,
-            Icons.error_rounded,
-            1,
-          );
-        } else {
-          change(null, status: RxStatus.error('Something went wrong'));
-          showSnack(
-            'Error',
-            'Something went wrong',
-            Colors.orange[400]!,
-            Icons.error_rounded,
-            1,
-          );
-        }
-      });
+        ..fields['student'] = (user.value!['appUser'] as Student).regNo
+        ..fields['schedule'] = schedule.id.toString()
+        ..fields['time_signed_in'] =
+            TZDateTime.now(getLocation('Africa/Nairobi')).toString()
+        ..fields['is_partial'] = isPartial.toString()
+        ..fields['auth_method'] = authMethod;
+
+      if (studImage != null) {
+        var stream = http.ByteStream(studImage.openRead());
+        var length = await studImage.length();
+
+        var multipartFile = http.MultipartFile(
+          'student_image',
+          stream,
+          length,
+          filename: studImage.path.split('/').last,
+        );
+        request.files.add(multipartFile);
+      }
+
+      var response = await request.send();
+      var responseBody = json.decode(await response.stream.bytesToString());
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        //TODO Check: Whether or not to have the mixin
+        //: final Attendance attendance = Attendance.fromJson(responseBody);
+        // LocalStorage().addAttendance(attendance);
+        change(state, status: RxStatus.success());
+        showSnack(
+          'Success',
+          'Attendance recorded successfully',
+          Colors.green[400]!,
+          Icons.error_rounded,
+          1,
+        );
+      } else if (response.statusCode == 404 || response.statusCode == 406) {
+        showSnack(
+          'Error',
+          responseBody['message'],
+          Colors.red[400]!,
+          Icons.error_rounded,
+          1,
+        );
+      } else {
+        change(null, status: RxStatus.error('Something went wrong'));
+        showSnack(
+          'Error',
+          'Something went wrong',
+          Colors.orange[400]!,
+          Icons.error_rounded,
+          1,
+        );
+      }
+      change(state, status: RxStatus.success());
     } catch (error) {
       change(null, status: RxStatus.error(error.toString()));
       showSnack(
         'Error',
-        'Please check your network connection',
+        error.toString(),
         Colors.red[400]!,
         Icons.error_rounded,
         1,
@@ -147,7 +175,7 @@ class AttendanceController extends GetxController with StateMixin<Attendance> {
           1,
         );
       }
-    } else {
+    } else if (numButtonTapped == 2) {
       //* The case where the button tapped is the second btn
       if (now.isAfter(customTime(
             hour: schedule.startTime.hour,
@@ -166,6 +194,18 @@ class AttendanceController extends GetxController with StateMixin<Attendance> {
               'Second check-in already recorded',
               Colors.orange[400]!,
               Icons.info_rounded,
+              1,
+            );
+          } else {
+            attTrack.btnTwoPressed = true;
+            attTrack.btnTwoInLocation = isInAttLocation;
+            await LocalStorage().addAttendanceTrack(
+                scheduleId: schedule.id, attTrack: attTrack);
+            showSnack(
+              'Success',
+              'Second check-in recorded successfully',
+              Colors.green[400]!,
+              Icons.grade_rounded,
               1,
             );
           }
@@ -193,15 +233,77 @@ class AttendanceController extends GetxController with StateMixin<Attendance> {
           1,
         );
       }
+    } else {
+      //* The case where the button tapped is the third btn
+
+      if (now.isAfter(customTime(
+            hour: schedule.endTime.hour,
+            minute: schedule.endTime.minute,
+            minToSubtract: 5,
+          )) &&
+          now.isBefore(customTime(
+            hour: schedule.endTime.hour,
+            minute: schedule.endTime.minute,
+            minToAdd: 5,
+          ))) {
+        if (attTrack != null) {
+          attTrack.btnThreePressed = true;
+          attTrack.btnThreeInLocation = isInAttLocation;
+          await LocalStorage()
+              .addAttendanceTrack(scheduleId: schedule.id, attTrack: attTrack);
+          AttendanceType attType = getAttendanceType(attTrack);
+          switch (attType) {
+            case AttendanceType.partial:
+              //* Register partial attendance
+              authenticateWithBiometrics(schedule: schedule, isPartial: true);
+              break;
+            case AttendanceType.full:
+              //* Register full attendance
+              authenticateWithBiometrics(schedule: schedule);
+              break;
+            default:
+              //* There is no attendance so display an error snack
+              showSnack(
+                'Error',
+                'You do not meet the threshold to take attendance',
+                Colors.red[400]!,
+                Icons.running_with_errors_rounded,
+                1,
+              );
+              return;
+          }
+        } else {
+          AttendanceTrack newAttTrack = AttendanceTrack(
+            btnThreePressed: true,
+            btnThreeInLocation: isInAttLocation,
+          );
+          await LocalStorage().addAttendanceTrack(
+              scheduleId: schedule.id, attTrack: newAttTrack);
+          showSnack(
+            'Error',
+            'You do not meet the threshold to take attendance',
+            Colors.red[400]!,
+            Icons.running_with_errors_rounded,
+            1,
+          );
+          return;
+        }
+      } else {
+        showSnack(
+          'Info',
+          'Time for final check-in has passed',
+          Colors.orange[400]!,
+          Icons.info_rounded,
+          1,
+        );
+      }
     }
+
     change(state, status: RxStatus.success());
   }
 
-  Future<void> takeAttendance(
-      AttendanceController attController, Schedule schedule) async {
-    //* Three cases:
-    //? 1. Doesn't have biometrics
-    //? 2. Has biometrics but not enrolled
+  Future<void> authenticateWithBiometrics(
+      {required Schedule schedule, bool isPartial = false}) async {
     final LocalAuthentication auth = LocalAuthentication();
 
     final bool canAuthenticateWithBiometrics = await auth.canCheckBiometrics;
@@ -219,25 +321,23 @@ class AttendanceController extends GetxController with StateMixin<Attendance> {
               stickyAuth: true,
             ),
           );
-
           if (didAuthenticate) {
-            attController.submitAttendance(
-              schedule,
-            );
+            await _submitAttendance(
+                schedule, isPartial, authMethods['localAuth']!);
           } else {
             showSnack(
-            'Error',
-            //? Check if device gives another chance / try-out
-            'Authentication failed',
-            Colors.red[400]!,
-            Icons.running_with_errors_rounded,
-            1,
-          );
+              'Error',
+              'Authentication failed',
+              Colors.red[400]!,
+              Icons.running_with_errors_rounded,
+              1,
+            );
+            return;
           }
         } catch (e) {
           showSnack(
             'Error',
-            'Cannot do authentication'
+            'Could not do authentication'
                 '${e.toString()}',
             Colors.red[400]!,
             Icons.running_with_errors_rounded,
@@ -247,19 +347,27 @@ class AttendanceController extends GetxController with StateMixin<Attendance> {
       } else {
         showSnack(
           'Info',
-          'Please enable biometrics on your phone',
+          'Please enroll for biometrics on your phone',
           Colors.orange[400]!,
           Icons.info_rounded,
           1,
         );
+        File studImage = await Get.toNamed(Routes.studImagePreviewRoute);
+        await _submitAttendance(
+          schedule,
+          isPartial,
+          authMethods['faceRecognitionService']!,
+          studImage: studImage,
+        );
       }
     } else {
-      final result = await Get.toNamed(Routes.studTakePictureRoute);
-      if(result == 'success') {
-        //? Show success snack
-      } else {
-        //? Show 'failed' snack
-      }  
+      File studImage = await Get.toNamed(Routes.studImagePreviewRoute);
+      await _submitAttendance(
+        schedule,
+        isPartial,
+        authMethods['faceRecognitionService']!,
+        studImage: studImage,
+      );
     }
   }
 }

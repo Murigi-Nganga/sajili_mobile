@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sajili_mobile/utils/custom_snack.dart';
 
 class StudTakePictureScreen extends StatefulWidget {
   const StudTakePictureScreen({
@@ -15,12 +16,12 @@ class StudTakePictureScreen extends StatefulWidget {
 
 class _StudTakePictureScreenState extends State<StudTakePictureScreen> {
   late CameraController _cameraController;
-  late Future<void> _initializeCamControllerFuture;
+  late Future<void> _initializeControllerFuture;
 
   @override
   void initState() {
     super.initState();
-    _initializeCamControllerFuture = _initializeCamera();
+    _initializeControllerFuture = _initializeCamera();
   }
 
   @override
@@ -31,23 +32,27 @@ class _StudTakePictureScreenState extends State<StudTakePictureScreen> {
 
   Future<void> _initializeCamera() async {
     final cameras = await availableCameras();
-    final frontCamera = cameras.firstWhere(
-        (camera) => camera.lensDirection == CameraLensDirection.front);
+    final frontCamera = cameras.firstWhere((camera) => camera.lensDirection == CameraLensDirection.front);
     _cameraController = CameraController(frontCamera, ResolutionPreset.medium);
     return _cameraController.initialize();
   }
 
   void _takePicture() async {
     try {
-      await _initializeCamControllerFuture;
-      // final appDirectory = await getApplicationDocumentsDirectory();
-      // final imagePath = '${appDirectory.path}/image.jpg}';
-      // final pictureFile = File(imagePath);
+      await _initializeControllerFuture;
       final pictureFile = await _cameraController.takePicture();
       final image = File(pictureFile.path);
-      Get.back<File>(result: image);
+      if (mounted) {
+        Get.back(result: image);
+      }
     } catch (error) {
-      print(error);
+      showSnack(
+        'Error',
+        'Something went wrong',
+        Colors.red[400]!,
+        Icons.running_with_errors_rounded,
+        1,
+      );
     }
   }
 
@@ -55,24 +60,14 @@ class _StudTakePictureScreenState extends State<StudTakePictureScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Take Picture'),
-      ),
+          title: const Text(
+        'Take Picture',
+      )),
       body: FutureBuilder(
-        future: _initializeCamControllerFuture,
+        future: _initializeControllerFuture,
         builder: ((context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
-            return Column(children: [
-              const SizedBox(height: 10),
-              const Text(
-                'Take a photo',
-                style: TextStyle(
-                  fontSize: 17,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-              const SizedBox(height: 30),
-              CameraPreview(_cameraController),
-            ]);
+            return Center(child: CameraPreview(_cameraController));
           } else {
             return const Center(
               child: CircularProgressIndicator(),
@@ -85,9 +80,12 @@ class _StudTakePictureScreenState extends State<StudTakePictureScreen> {
         width: 75.0,
         child: FittedBox(
           child: FloatingActionButton(
-            tooltip: 'Take a selfie',
-            onPressed: _takePicture,
-            child: const Icon(Icons.camera_alt_rounded, color: Colors.white),
+            tooltip: 'Take a photo',
+            onPressed: () => _takePicture(),
+            child: const Icon(
+              Icons.camera_alt_rounded,
+              color: Colors.white,
+            ),
           ),
         ),
       ),

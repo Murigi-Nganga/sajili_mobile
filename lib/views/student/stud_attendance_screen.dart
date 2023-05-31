@@ -80,7 +80,7 @@ class _StudAttendanceScreenState extends State<StudAttendanceScreen> {
                           GetBuilder<AttendanceController>(
                               builder: (attController) {
                             return attController.status.isLoading
-                            //TODO: Use a different widget here
+                                //TODO: Use a different widget here
                                 ? const CircularProgressIndicator()
                                 : Column(
                                     children: [
@@ -102,8 +102,9 @@ class _StudAttendanceScreenState extends State<StudAttendanceScreen> {
                                         upperTimeBound: fiveMinAfterStart,
                                         onPressed: () async =>
                                             await attController.captureCheckIn(
-                                                schedule: schedule,
-                                                numButtonTapped: 1),
+                                          schedule: schedule,
+                                          numButtonTapped: 1,
+                                        ),
                                       ),
                                       const SizedBox(height: 20),
                                       CheckinWidget(
@@ -112,8 +113,9 @@ class _StudAttendanceScreenState extends State<StudAttendanceScreen> {
                                         upperTimeBound: fiveMinBeforeEnd,
                                         onPressed: () async =>
                                             await attController.captureCheckIn(
-                                                schedule: schedule,
-                                                numButtonTapped: 2),
+                                          schedule: schedule,
+                                          numButtonTapped: 2,
+                                        ),
                                       ),
                                       const SizedBox(height: 20),
                                       CheckinWidget(
@@ -121,9 +123,9 @@ class _StudAttendanceScreenState extends State<StudAttendanceScreen> {
                                         lowerTimeBound: fiveMinBeforeEnd,
                                         upperTimeBound: fiveMinAfterEnd,
                                         onPressed: () async =>
-                                            attController.takeAttendance(
-                                          attController,
-                                          schedule,
+                                            attController.captureCheckIn(
+                                          schedule: schedule,
+                                          numButtonTapped: 3,
                                         ),
                                       ),
                                     ],

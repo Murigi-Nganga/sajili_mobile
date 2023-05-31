@@ -5,6 +5,7 @@ import 'package:sajili_mobile/views/lecturer/lec_login_screen.dart';
 import 'package:sajili_mobile/views/lecturer/lec_schedule_screen.dart';
 import 'package:sajili_mobile/views/student/stud_attendance_screen.dart';
 import 'package:sajili_mobile/views/student/stud_home_screen.dart';
+import 'package:sajili_mobile/views/student/stud_image_preview_screen.dart';
 import 'package:sajili_mobile/views/student/stud_login_screen.dart';
 import 'package:sajili_mobile/views/student/stud_take_picture_screen.dart';
 
@@ -15,6 +16,7 @@ class Routes {
   // Student routes
   static const studLoginRoute = '/student/login';
   static const studTakePictureRoute = '/student/take-picture';
+  static const studImagePreviewRoute = '/student/image-preview';
   static const studAttendanceRoute = '/student/take-attendance';
   static const studHomeRoute = '/student/home';
 
@@ -46,6 +48,10 @@ final getPages = [
   GetPage(
     name: Routes.studTakePictureRoute,
     page: () => const StudTakePictureScreen(),
+  ),
+  GetPage(
+    name: Routes.studImagePreviewRoute,
+    page: () => const StudImagePreviewScreen(),
   ),
   
   // Lecturer pages

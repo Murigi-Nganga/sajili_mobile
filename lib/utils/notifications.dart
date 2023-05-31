@@ -11,6 +11,8 @@ FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
 
 Future<void> setScheduleNotification({required Schedule schedule}) async {
   DateTime now = DateTime.now();
+
+  //* 5 mins before the class begins
   DateTime notifDateTime = customTime(
     hour: schedule.startTime.hour,
     minute: schedule.startTime.minute,
@@ -29,9 +31,8 @@ Future<void> setScheduleNotification({required Schedule schedule}) async {
     'Channel ${schedule.id}',
     'Class Reminders',
     channelDescription: 'Notifications to remind students to attend classes',
-    priority: Priority.max,
-    importance: Importance.max,
-    colorized: true,
+    priority: Priority.high,
+    importance: Importance.high,
     timeoutAfter: 10 * 60 * 1000,
   );
 
@@ -43,8 +44,8 @@ Future<void> setScheduleNotification({required Schedule schedule}) async {
     schedule.id,
     '${schedule.subject.subjectCode} - ${schedule.subject.subjectName}',
     'Class will start at ${notifDateTime.hour}:${notifDateTime.minute} hrs\n'
-    // 'Remember to take your check-ins for the class'
-    ,
+        'Remember to record your check-ins to confirm \n'
+        'your class attendance',
     scheduledNotificationDateTime,
     NotificationDetails(
       android: androidPlatformChannelSpecifics,
@@ -54,20 +55,6 @@ Future<void> setScheduleNotification({required Schedule schedule}) async {
     uiLocalNotificationDateInterpretation:
         UILocalNotificationDateInterpretation.absoluteTime,
   );
-
-  // await flutterLocalNotificationsPlugin.zonedSchedule(
-  //   schedule.id + 1000,
-  //   '${schedule.subject.subjectCode} - ${schedule.subject.subjectName}',
-  //   'Remember to take your second check-in for the class',
-  //   scheduledNotificationDateTime.add(const Duration(minutes: 2)),
-  //   NotificationDetails(
-  //     android: androidPlatformChannelSpecifics,
-  //   ),
-  //   androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
-  //   payload: 'Notification reminder for ${schedule.subject.subjectCode}',
-  //   uiLocalNotificationDateInterpretation:
-  //       UILocalNotificationDateInterpretation.absoluteTime,
-  // );
 }
 
 Future<void> setNotifications() async {

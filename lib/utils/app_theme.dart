@@ -20,7 +20,7 @@ ElevatedButtonThemeData _elevatedButtonTheme = ElevatedButtonThemeData(
     ),
     shape: MaterialStateProperty.all(const RoundedRectangleBorder(
       borderRadius: BorderRadius.all(
-        Radius.circular(8),
+        Radius.circular(30),
       ),
     )),
   ),
